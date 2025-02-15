@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rhinoplasty AI</title>
+</head>
+<body>
+    <h2>🏥 Rhinoplasty AI - Modify Your Nose with AI</h2>
+    
+    <input type="file" id="imageUpload" accept="image/*">
+    <select id="noseStyle">
+        <option value="Slim">Slim Nose</option>
+        <option value="Sharp">Sharp Nose</option>
+        <option value="Natural">Natural Nose</option>
+        <option value="Upturned">Upturned Nose</option>
+    </select>
+    <button onclick="processImage()">Generate</button>
+
+    <h3>Result:</h3>
+    <img id="resultImage" width="300">
+
+    <script>
+        function processImage() {
+            let imageFile = document.getElementById("imageUpload").files[0];
+            let noseStyle = document.getElementById("noseStyle").value;
+            let formData = new FormData();
+            formData.append("image", imageFile);
+            formData.append("nose_style", noseStyle);
+
+            fetch("/process", {
+                method: "POST",
+                body: formData
+            })
+            .then(response => response.blob())
+            .then(blob => {
+                document.getElementById("resultImage").src = URL.createObjectURL(blob);
+            });
+        }
+    </script>
+</body>
+</html>
